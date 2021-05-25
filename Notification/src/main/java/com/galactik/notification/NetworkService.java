@@ -12,5 +12,7 @@ public interface NetworkService {
     @POST("open/push/subscribe")
     Call<ApiResponse> savePost(@Body DeviceSubscribe subscribe);
 
+    @POST("open/user/caching/v1.0/device-token-registration")
+    Call<ApiResponse> deviceTokenRegistration(@Body DeviceTokenRequest request);
 
 }

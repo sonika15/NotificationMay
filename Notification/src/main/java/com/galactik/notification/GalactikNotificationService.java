@@ -63,7 +63,7 @@ public class GalactikNotificationService extends FirebaseMessagingService {
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("deviceToken", s);
         editor.apply();
-        sendPost();
+       // sendPost();
         super.onNewToken(s);
     }
 
