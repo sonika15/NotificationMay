@@ -44,7 +44,6 @@ public class GalactikNotificationService extends FirebaseMessagingService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
                 .setAutoCancel(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                 .setOnlyAlertOnce(true);
 //                .setContentIntent(pendingIntent);
