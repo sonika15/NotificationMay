@@ -25,6 +25,29 @@ public class AddVisitorId extends Application {
     }
 
     public void setVisitorId(String visitorId) {
+//        Log.wtf("visitorId", visitorId);
+//        sharedpreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedpreferences.edit();
+//        editor.putString("visitorId", visitorId);
+//        editor.apply();
+//        final Handler handler = new Handler(Looper.getMainLooper());
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                deviceToken = ApiUtil.getToken(context);
+//                Log.wtf("deviceToken", deviceToken);
+//
+//                if (!deviceToken.equals("")) {
+//                    Log.wtf("deviceToken", deviceToken);
+//                    sendPost();
+//                } else {
+//                    Log.wtf("deviceToken", "empty hai ");
+//                }
+//            }
+//        }, 2000);
+    }
+
+    public void registerDevice(String deviceId, String userId , String visitorId) {
         Log.wtf("visitorId", visitorId);
         sharedpreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -36,26 +59,9 @@ public class AddVisitorId extends Application {
             public void run() {
                 deviceToken = ApiUtil.getToken(context);
                 Log.wtf("deviceToken", deviceToken);
-
                 if (!deviceToken.equals("")) {
                     Log.wtf("deviceToken", deviceToken);
-                    sendPost();
-                } else {
-                    Log.wtf("deviceToken", "empty hai ");
-                }
-            }
-        }, 2000);
-    }
-
-    public void registerDevice(String deviceId, String userId) {
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                deviceToken = ApiUtil.getToken(context);
-                Log.wtf("deviceToken", deviceToken);
-                if (!deviceToken.equals("")) {
-                    Log.wtf("deviceToken", deviceToken);
+                    sendPost(); // Api calling for visitorId
                     NetworkService service = ApiUtil.getAPIService();
                     DeviceTokenRequest deviceTokenRequest = new DeviceTokenRequest(deviceId, deviceToken, userId);
                     service.deviceTokenRegistration(deviceTokenRequest).enqueue(new Callback<ApiResponse>() {
