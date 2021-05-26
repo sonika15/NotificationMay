@@ -49,9 +49,9 @@ public class GalactikNotificationService extends FirebaseMessagingService {
 //                .setContentIntent(pendingIntent);
         builder = builder.setContentTitle(title).setContentText(message);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setSmallIcon(R.mipmap.ic_launcher);
+            builder.setSmallIcon(R.drawable.ic_stat_name);
         } else {
-            builder.setSmallIcon(R.mipmap.ic_launcher);
+            builder.setSmallIcon(R.drawable.ic_stat_name);
         }
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
