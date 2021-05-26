@@ -44,6 +44,7 @@ public class GalactikNotificationService extends FirebaseMessagingService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
                 .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                 .setOnlyAlertOnce(true);
 //                .setContentIntent(pendingIntent);
@@ -63,33 +64,8 @@ public class GalactikNotificationService extends FirebaseMessagingService {
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("deviceToken", s);
         editor.apply();
-       // sendPost();
         super.onNewToken(s);
     }
 
-
-    public void sendPost() {
-        deviceToken = ApiUtil.getToken(getApplicationContext());
-        visitorId = ApiUtil.getVisitorId(getApplicationContext());
-        Log.wtf("deviceToken", deviceToken);
-        Log.wtf("visitorId", visitorId);
-        NetworkService service = ApiUtil.getAPIService();
-        Subscription subscription = new Subscription(deviceToken);
-        DeviceSubscribe deviceSubscribe = new DeviceSubscribe(visitorId, subscription, "android");
-        service.savePost(deviceSubscribe).enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()) {
-                    //showResponse(response.body().toString());
-                    Log.wtf("post submitted to API.", response.body().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Log.wtf("failure", "Unable to submit post to API.");
-            }
-        });
-    }
 
 }

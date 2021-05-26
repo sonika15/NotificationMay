@@ -30,27 +30,25 @@ public class AddVisitorId extends Application {
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("visitorId", visitorId);
         editor.apply();
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                deviceToken = ApiUtil.getToken(context);
+                Log.wtf("deviceToken", deviceToken);
 
-
-//        final Handler handler = new Handler(Looper.getMainLooper());
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                deviceToken = ApiUtil.getToken(context);
-//                Log.wtf("deviceToken", deviceToken);
-//
-//                if (!deviceToken.equals("")) {
-//                    Log.wtf("deviceToken", deviceToken);
-//                    sendPost();
-//                } else {
-//                    Log.wtf("deviceToken", "empty hai ");
-//                }
-//            }
-//        }, 5000);
+                if (!deviceToken.equals("")) {
+                    Log.wtf("deviceToken", deviceToken);
+                    sendPost();
+                } else {
+                    Log.wtf("deviceToken", "empty hai ");
+                }
+            }
+        }, 2000);
     }
 
-    public void registerDevice(String deviceId,String userId) {
-                final Handler handler = new Handler(Looper.getMainLooper());
+    public void registerDevice(String deviceId, String userId) {
+        final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -59,7 +57,7 @@ public class AddVisitorId extends Application {
                 if (!deviceToken.equals("")) {
                     Log.wtf("deviceToken", deviceToken);
                     NetworkService service = ApiUtil.getAPIService();
-                    DeviceTokenRequest deviceTokenRequest = new DeviceTokenRequest(deviceId,deviceToken,userId);
+                    DeviceTokenRequest deviceTokenRequest = new DeviceTokenRequest(deviceId, deviceToken, userId);
                     service.deviceTokenRegistration(deviceTokenRequest).enqueue(new Callback<ApiResponse>() {
                         @Override
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -68,6 +66,7 @@ public class AddVisitorId extends Application {
                                 Log.wtf("post submitted to API.", response.body().toString());
                             }
                         }
+
                         @Override
                         public void onFailure(Call<ApiResponse> call, Throwable t) {
                             Log.wtf("failure", "Unable to submit post to API.");
@@ -78,5 +77,29 @@ public class AddVisitorId extends Application {
                 }
             }
         }, 5000);
+    }
+
+    public void sendPost() {
+        deviceToken = ApiUtil.getToken(context);
+        visitorId = ApiUtil.getVisitorId(context);
+        Log.wtf("deviceToken", deviceToken);
+        Log.wtf("visitorId", visitorId);
+        NetworkService service = ApiUtil.getAPIService();
+        Subscription subscription = new Subscription(deviceToken);
+        DeviceSubscribe deviceSubscribe = new DeviceSubscribe(visitorId, subscription, "android");
+        service.savePost(deviceSubscribe).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    //showResponse(response.body().toString());
+                    Log.wtf("post submitted to API.", response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.wtf("failure", "Unable to submit post to API.");
+            }
+        });
     }
 }
