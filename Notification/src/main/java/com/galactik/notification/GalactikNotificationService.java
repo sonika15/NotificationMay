@@ -13,6 +13,8 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,14 +31,21 @@ public class GalactikNotificationService extends FirebaseMessagingService {
     public void
     onMessageReceived(RemoteMessage remoteMessage) {
         Log.wtf("message", String.valueOf(remoteMessage.getData()));
-        if (remoteMessage.getNotification() != null) {
-            showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        if (remoteMessage.getData() != null) {
+            Map<String, String> data = remoteMessage.getData();
+            String title = data.get("notificationTitle");
+            String message = data.get("notificationMessage");
+            showNotification(title, message);
         }
+//        if (remoteMessage.getNotification() != null) {
+//            showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+//        }
     }
 
 
     public void showNotification(String title, String message) {
         Log.wtf("notify", title);
+        Log.wtf("notifyMessage", message);
         // Intent intent = new Intent(this, activity.getClass());
         String channel_id = "notification_channel";
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
