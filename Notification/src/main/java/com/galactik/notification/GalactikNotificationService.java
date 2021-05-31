@@ -41,24 +41,25 @@ public class GalactikNotificationService extends FirebaseMessagingService {
         String channel_id = "notification_channel";
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
-                .setAutoCancel(true)
-                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                .setOnlyAlertOnce(true);
-//                .setContentIntent(pendingIntent);
-        builder = builder.setContentTitle(title).setContentText(message);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setSmallIcon(R.drawable.ic_stat_name);
-        } else {
-            builder.setSmallIcon(R.drawable.ic_stat_name);
-        }
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String GROUP_KEY = "com.galactik.notifications.KEY";
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext(), channel_id)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setGroup(GROUP_KEY)
+                .setGroupSummary(true)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(channel_id, "Notification Channel", NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(notificationChannel);
         }
-        notificationManager.notify(0, builder.build());
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notification.setSmallIcon(R.drawable.ic_stat_name);
+
+        } else {
+            notification.setSmallIcon(R.drawable.ic_stat_name);
+        }
+        notificationManager.notify(0, notification.build());
     }
 
     @Override
