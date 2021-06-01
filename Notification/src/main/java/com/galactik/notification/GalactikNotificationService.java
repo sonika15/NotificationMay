@@ -14,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,7 +69,9 @@ public class GalactikNotificationService extends FirebaseMessagingService {
         } else {
             notification.setSmallIcon(R.drawable.ic_stat_name);
         }
-        notificationManager.notify(0, notification.build());
+        Random random = new Random();
+        final int notificationId = random.nextInt(9999);
+        notificationManager.notify(notificationId, notification.build());
     }
 
     @Override

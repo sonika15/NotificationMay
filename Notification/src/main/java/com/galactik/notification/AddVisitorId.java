@@ -47,7 +47,7 @@ public class AddVisitorId extends Application {
 //        }, 2000);
     }
 
-    public void registerDevice(String deviceId, String userId , String visitorId) {
+    public void registerDevice(String deviceId, String userId, String visitorId) {
         Log.wtf("visitorId", visitorId);
         sharedpreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
