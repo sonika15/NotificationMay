@@ -19,14 +19,16 @@ public class DeviceTokenRequest {
     public String source = "android";
 
     public String token;
-    public String clientId="";
-    public String clientName="";
-    public String emailId="";
-    public String mobileNo="";
+    public String clientId = "";
+    public String clientName = "";
+    public String emailId = "";
+    public String mobileNo = "";
+    public String loginStatus = "";
 
-    public DeviceTokenRequest(String device, String token, String userId) {
+    public DeviceTokenRequest(String device, String token, String userId, String loginStatus) {
         this.device = device;
         this.userId = userId;
         this.token = token;
+        this.loginStatus = loginStatus;
     }
 }

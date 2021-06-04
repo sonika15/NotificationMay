@@ -47,7 +47,7 @@ public class AddVisitorId extends Application {
 //        }, 2000);
     }
 
-    public void registerDevice(String deviceId, String userId, String visitorId) {
+    public void registerDevice(String deviceId, String userId, String visitorId, String loginStatus) {
         Log.wtf("visitorId", visitorId);
         sharedpreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -63,7 +63,7 @@ public class AddVisitorId extends Application {
                     Log.wtf("deviceToken", deviceToken);
                     sendPost(); // Api calling for visitorId
                     NetworkService service = ApiUtil.getAPIService();
-                    DeviceTokenRequest deviceTokenRequest = new DeviceTokenRequest(deviceId, deviceToken, userId);
+                    DeviceTokenRequest deviceTokenRequest = new DeviceTokenRequest(deviceId, deviceToken, userId, loginStatus);
                     service.deviceTokenRegistration(deviceTokenRequest).enqueue(new Callback<ApiResponse>() {
                         @Override
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
